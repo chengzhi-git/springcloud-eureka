@@ -1,6 +1,9 @@
 package com.chengzhi.eurekaprovider;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -10,8 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class MainController {
-    @GetMapping("getHi")
-    public String getHi(){
-        return "Hi";
+
+    @Value("${server.port}")
+    String port;
+    @GetMapping("/getHi")
+    public String getHi() {
+        return "Hi,我的port是：" + port;
+    }
+
+    @Autowired
+    HealthStatusService hsrv;
+    @GetMapping("/health")
+    public String getHi(@RequestParam("status") Boolean status){
+        hsrv.setStatus(status);
+        return hsrv.getStatus();
     }
 }
