@@ -2,9 +2,10 @@ package com.chengzhi.eurekaprovider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * @Author:chengzhi
@@ -21,6 +22,30 @@ public class MainController {
         return "Hi,我的port是：" + port;
     }
 
+    @GetMapping("/getMap")
+    public Map<String,String> getMap() {
+        return Collections.singletonMap("id","100");
+    }
+
+    @GetMapping("/getObj2")
+    //@RequestParam,如果不加参数会抛出异常，否则会传入null
+    public Person getObj2(@RequestParam String name) {
+        Person person = new Person(name, 100);
+        return person;
+    }
+
+    @PostMapping ("/postObj")
+    //@RequestParam,如果不加参数会抛出异常，否则会传入null
+    public Person postObj(@RequestBody String name) {
+        Person person = new Person(name, 100);
+        return person;
+    }
+
+    @GetMapping("/getObj")
+    public Person getObj(String name) {
+        Person person = new Person("程智", 100);
+        return person;
+    }
     @Autowired
     HealthStatusService hsrv;
     @GetMapping("/health")
